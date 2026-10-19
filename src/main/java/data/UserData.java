@@ -1,3 +1,5 @@
+package data;
+
 import com.github.javafaker.Faker;
 
 public class UserData {

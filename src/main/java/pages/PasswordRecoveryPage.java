@@ -1,4 +1,4 @@
-package praktikum.pages;
+package pages;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -10,9 +10,11 @@ import java.time.Duration;
 public class PasswordRecoveryPage {
 
     private WebDriver driver;
+    private final WebDriverWait wait;
 
     public PasswordRecoveryPage(WebDriver driver) {
         this.driver = driver;
+        this.wait = new WebDriverWait(driver, Duration.ofSeconds(10));
     }
 
     // Локаторы - придуманные заглушки, т.к. сайт не работает
@@ -22,8 +24,6 @@ public class PasswordRecoveryPage {
 
     // Метод для нажатия на кнопку Войти
     public void clickLoginButton() {
-        new WebDriverWait(driver, Duration.ofSeconds(5))
-                .until(ExpectedConditions.elementToBeClickable(loginButton))
-                .click();
-
+        wait.until(ExpectedConditions.elementToBeClickable(loginButton)).click();
+    }
 }

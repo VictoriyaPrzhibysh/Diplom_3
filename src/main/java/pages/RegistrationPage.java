@@ -1,4 +1,4 @@
-package praktikum.pages;
+package pages;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -11,9 +11,11 @@ import java.time.Duration;
 
 public class RegistrationPage {
     private WebDriver driver;
+    private WebDriverWait wait;
 
     public RegistrationPage(WebDriver driver) {
         this.driver = driver;
+        this.wait = new WebDriverWait(driver, Duration.ofSeconds(10));
     }
 
     // Локаторы - придуманные заглушки, т.к. сайт не работает
@@ -31,7 +33,7 @@ public class RegistrationPage {
     private final By registerButton = By.xpath("//div[contains(@class, 'registerButton')]//button[normalize-space()='Зарегистрироваться']");
 
     // Локатор для кнопки Войти на странице регистрации
-    private final By loginButton = By.xpath("//div[contains(@class, 'registerButton')]//button[normalize-space()='Зарегистрироваться']");
+    private final By loginButton = By.xpath("//div[contains(@class, 'registerButton')]//button[normalize-space()='Войти']");
 
     // Локатор для ошибки ввода неверного пароля (ПРЕДПОЛОЖЕНИЕ)
     private final By passwordError = By.cssSelector(".error-message");
@@ -42,29 +44,27 @@ public class RegistrationPage {
 
     // Метод для заполнения поля Имя
     public void setName(String name) {
-        new WebDriverWait(driver, Duration.ofSeconds(5))
-                .until(ExpectedConditions.elementToBeClickable(nameInput))
-                .sendKeys(name);
+        wait.until(ExpectedConditions.elementToBeClickable(nameInput)).sendKeys(name);
     }
 
     // Метод для заполнения поля Email
     public void setEmail(String email) {
-        driver.findElement(emailInput).sendKeys(email);
+        wait.until(ExpectedConditions.elementToBeClickable(emailInput)).sendKeys(email);
     }
 
     // Метод для заполнения поля Пароль
     public void setPassword(String password) {
-        driver.findElement(passwordInput).sendKeys(password);
+        wait.until(ExpectedConditions.elementToBeClickable(passwordInput)).sendKeys(password);
     }
 
     // Метод нажатия на кнопку Зарегистрироваться на странице регистрации
     public void clickRegisterButton() {
-        driver.findElement(registerButton).click();
+        wait.until(ExpectedConditions.elementToBeClickable(registerButton)).click();
     }
 
     // Метод нажатия на кнопку Войти на странице регистрации
     public void clickLoginButton() {
-        driver.findElement(loginButton).click();
+        wait.until(ExpectedConditions.elementToBeClickable(loginButton)).click();
     }
 
     // Метод для заполнения формы регистрации

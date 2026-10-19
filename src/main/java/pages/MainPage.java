@@ -1,4 +1,4 @@
-package praktikum.pages;
+package pages;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -10,10 +10,12 @@ import java.time.Duration;
 
 public class MainPage {
 
-    private WebDriver driver;
+    private final WebDriver driver;
+    private final WebDriverWait wait;
 
     public MainPage(WebDriver driver) {
-        this.driver = driver;
+    this.driver = driver;
+    this.wait = new WebDriverWait(driver, Duration.ofSeconds(10));
     }
 
     public static final String BASE_URL = "https://stellarburgers.education-services.ru/";
@@ -37,67 +39,48 @@ public class MainPage {
 
     // Метод для нажатиям на кнопку Личный кабинет
     public void clickPersonalCabinetButton() {
-        new WebDriverWait(driver, Duration.ofSeconds(5))
-                .until(ExpectedConditions.elementToBeClickable(personalCabinetButton))
-                .click();
+        wait.until(ExpectedConditions.elementToBeClickable(personalCabinetButton)).click();
     }
 
-    // Метод для нажатиям на кнопку Войти в аккаунт
+    // Метод для нажатия на кнопку Войти в аккаунт
     public void clickLoginLink() {
-        new WebDriverWait(driver, Duration.ofSeconds(5))
-                .until(ExpectedConditions.elementToBeClickable(loginLink)).click();
+        wait.until(ExpectedConditions.elementToBeClickable(loginLink)).click();
     }
 
     // Метод нажатия на вкладку Булки
     public void clickBunsTab() {
-        new WebDriverWait(driver, Duration.ofSeconds(5))
-                .until(ExpectedConditions.elementToBeClickable(bunsTab))
-                .click();
+        wait.until(ExpectedConditions.elementToBeClickable(bunsTab)).click();
     }
 
     // Метод нажатия на вкладку Соусы
     public void clickSaucesTab() {
-        new WebDriverWait(driver, Duration.ofSeconds(5))
-                .until(ExpectedConditions.elementToBeClickable(saucesTab))
-                .click();
+        wait.until(ExpectedConditions.elementToBeClickable(saucesTab)).click();
     }
+
 
     //Метод нажатия на вкладку Начинки
     public void clickFillingsTab() {
-        new WebDriverWait(driver, Duration.ofSeconds(5))
-                .until(ExpectedConditions.elementToBeClickable(fillingsTab))
-                .click();
+        wait.until(ExpectedConditions.elementToBeClickable(fillingsTab)).click();
     }
 
     //Метод проверки активности вкладки Булки
     public boolean isBunsTabActive() {
-        try {
-            WebElement element = new WebDriverWait(driver, Duration.ofSeconds(5))
-                    .until(ExpectedConditions.visibilityOfElementLocated(bunsTab));
-            return element.getAttribute("class").contains("tab_tab_type_current");
-        } catch (Exception e) {
-            return false;
-        }
+        WebElement element = wait.until(ExpectedConditions.visibilityOfElementLocated(bunsTab));
+        String classes = element.getAttribute("class");
+        return classes != null && classes.contains("tab_tab_type_current");
     }
 
     //Метод проверки активности вкладки Соусы
     public boolean isSaucesTabActive() {
-        try {
-            WebElement element = new WebDriverWait(driver, Duration.ofSeconds(5))
-                    .until(ExpectedConditions.visibilityOfElementLocated(saucesTab));
-            return element.getAttribute("class").contains("tab_tab_type_current");
-        } catch (Exception e) {
-            return false;
-        }
+        WebElement element = wait.until(ExpectedConditions.visibilityOfElementLocated(saucesTab));
+        String classes = element.getAttribute("class");
+        return classes != null && classes.contains("tab_tab_type_current");
     }
 
     //Метод проверки активности вкладки Начинки
     public boolean isFillingsTabActive() {
-        try {
-            WebElement element = new WebDriverWait(driver, Duration.ofSeconds(5))
-                    .until(ExpectedConditions.visibilityOfElementLocated(fillingsTab));
-            return element.getAttribute("class").contains("tab_tab_type_current");
-        } catch (Exception e) {
-            return false;
-        }
+        WebElement element = wait.until(ExpectedConditions.visibilityOfElementLocated(fillingsTab));
+        String classes = element.getAttribute("class");
+        return classes != null && classes.contains("tab_tab_type_current");
+    }
 }
