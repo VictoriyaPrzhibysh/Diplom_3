@@ -1,5 +1,6 @@
 package pages;
 
+import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -16,37 +17,35 @@ public class PersonalCabinetAuthorizationPage {
         this.wait = new WebDriverWait(driver, Duration.ofSeconds(10));
     }
 
-    // Локаторы - придуманные заглушки, т.к. сайт не работает
-
     // Локатор для поля Имя в личном кабинете
-    private final By nameInput = By.xpath("//div[contains(text(), 'Имя')]//following::input");
+    private final By nameInput = By.name("Name");
 
     // Локатор для поля Логин в личном кабинете
-    private final By loginInput = By.xpath("//div[contains(text(), 'Логин')]//following::input");
+    private final By loginInput = By.name("name");
 
-    // Метод проверки заполнения поля Имя
+    @Step("Проверяем заполнение поля Имя")
     public String getUserName() {
         return wait.until(ExpectedConditions.visibilityOfElementLocated(nameInput)).getAttribute("value");
     }
 
-    // Метод проверки заполнения поля Логин
+    @Step("Проверяем заполнение поля Логин")
     public String getUserLogin() {
         return wait.until(ExpectedConditions.visibilityOfElementLocated(loginInput)).getAttribute("value");
     }
 
-    // Метод проверки соответствия имени тестовым данным
+    @Step("Проверяем соответствия имени данным залогиневшегося пользователя")
     public boolean isNameCorrect(String expectedName) {
         String actualName = getUserName();
         return actualName.equals(expectedName);
     }
 
-    // Метод проверки соответствия логина тестовым данным
+    @Step("Проверяем соответствия логина данным залогиневшегося пользователя")
     public boolean isLoginCorrect(String expectedLogin) {
         String actualLogin = getUserLogin();
         return actualLogin.equals(expectedLogin);
     }
 
-    // Метод для проверки обоих полей сразу
+    @Step("Проверяем соответствия имени и логина данным залогиневшегося пользователя")
     public boolean verifyUserDetails(String expectedName, String expectedLogin) {
         return isNameCorrect(expectedName) && isLoginCorrect(expectedLogin);
     }

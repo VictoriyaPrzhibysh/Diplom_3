@@ -18,29 +18,23 @@ public class RegistrationPage {
         this.wait = new WebDriverWait(driver, Duration.ofSeconds(10));
     }
 
-    // Локаторы - придуманные заглушки, т.к. сайт не работает
-
     // Локатор для поля Имя
-    private final By nameInput = By.cssSelector("input[placeholder*='Имя']");
+    private final By nameInput = By.xpath("//label[normalize-space()='Имя']/following::input[1]");
 
     // Локатор для поля Email
-    private final By emailInput = By.cssSelector("input[placeholder*='Email']");
+    private final By emailInput = By.xpath("//label[normalize-space()='Email']/following::input[1]");
 
     // Локатор для поля Пароль
-    private final By passwordInput = By.cssSelector("input[placeholder*='Пароль']");
+    private final By passwordInput = By.xpath("//label[normalize-space()='Пароль']/following::input[1]");
 
     // Локатор для кнопки Зарегистрироваться на странице регистрации
-    private final By registerButton = By.xpath("//div[contains(@class, 'registerButton')]//button[normalize-space()='Зарегистрироваться']");
+    private final By registerButton = By.xpath("//button[normalize-space()='Зарегистрироваться']");
 
     // Локатор для кнопки Войти на странице регистрации
-    private final By loginButton = By.xpath("//div[contains(@class, 'registerButton')]//button[normalize-space()='Войти']");
+    private final By loginButton = By.xpath("//a[normalize-space()='Войти']");
 
     // Локатор для ошибки ввода неверного пароля (ПРЕДПОЛОЖЕНИЕ)
-    private final By passwordError = By.cssSelector(".error-message");
-
-    // Локатор для окна подтверждения успешной регистрации (ПРЕДПОЛОЖЕНИЕ)
-    private final By registrationSuccessMessage = By.cssSelector(".success-message");
-
+    private final By passwordError = By.cssSelector("p.input__error");
 
     // Метод для заполнения поля Имя
     public void setName(String name) {
@@ -75,7 +69,7 @@ public class RegistrationPage {
         clickRegisterButton();
     }
 
-    // Метод проверки наличия ошибки пароля (ПРЕДПОЛОЖЕНИЕ)
+    // Метод проверки наличия ошибки пароля
     public boolean isPasswordErrorDisplayed() {
         try {
             WebElement element = new WebDriverWait(driver, Duration.ofSeconds(5))
@@ -85,16 +79,4 @@ public class RegistrationPage {
             return false;
         }
     }
-
-    // Метод проверки успешного завершения регистрации (ПРЕДПОЛОЖЕНИЕ)
-    public boolean isRegistrationSuccess() {
-        try {
-            WebElement element = new WebDriverWait(driver, Duration.ofSeconds(5))
-                    .until(ExpectedConditions.visibilityOfElementLocated(registrationSuccessMessage));
-            return element.isDisplayed() && element.getText().contains("успешно");
-        } catch (Exception e) {
-            return false;
-        }
-    }
-
 }

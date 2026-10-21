@@ -12,7 +12,7 @@ import steps.UserSteps;
 
 import static org.junit.Assert.assertTrue;
 
-public class AuthorizationUserTest {
+public class AuthorizationUserTest extends BaseApiTest  {
 
     private WebDriver driver;
     private UserData userData;
@@ -45,10 +45,6 @@ public class AuthorizationUserTest {
         createResponse.then().statusCode(200);
         System.out.println("Пользователь создан: " + email);
 
-        // Получаем токен для удаления пользователя
-        accessToken = UserSteps.getAccessToken(email, password);
-        assertTrue("Не удалось получить токен для очистки", accessToken != null);
-
         driver = DriverManager.getDriver();
         driver.get(MainPage.BASE_URL);
 
@@ -65,7 +61,7 @@ public class AuthorizationUserTest {
     public void testLoginViaMainPageButton() {
         mainPage.clickLoginLink();
         authorizationPage.fillAuthorizationForm (email, password);
-        authorizationPage.clickAuthorizationButton();
+        mainPage.clickPersonalCabinetButton();
         personalCabinetAuthorizationPage.verifyUserDetails(name, email);
     }
 
@@ -75,7 +71,7 @@ public class AuthorizationUserTest {
     public void testLoginViaPersonalCabinetButton() {
         mainPage.clickPersonalCabinetButton();
         authorizationPage.fillAuthorizationForm (email, password);
-        authorizationPage.clickAuthorizationButton();
+        mainPage.clickPersonalCabinetButton();
         personalCabinetAuthorizationPage.verifyUserDetails(name, email);
     }
 
@@ -87,7 +83,7 @@ public class AuthorizationUserTest {
         authorizationPage.clickRegisterButton();
         registrationPage.clickLoginButton();
         authorizationPage.fillAuthorizationForm (email, password);
-        authorizationPage.clickAuthorizationButton();
+        mainPage.clickPersonalCabinetButton();
         personalCabinetAuthorizationPage.verifyUserDetails(name, email);
     }
 
@@ -99,17 +95,20 @@ public class AuthorizationUserTest {
         authorizationPage.clickForgotPasswordButton();
         passwordRecoveryPage.clickLoginButton();
         authorizationPage.fillAuthorizationForm (email, password);
-        authorizationPage.clickAuthorizationButton();
+        mainPage.clickPersonalCabinetButton();
         personalCabinetAuthorizationPage.verifyUserDetails(name, email);
     }
 
 
     @After
     public void tearDown() {
+        // Получаем токен для удаления пользователя
+        accessToken = UserSteps.getAccessToken(email, password);
+        assertTrue("Не удалось получить токен для очистки", accessToken != null);
         // Удаляем пользователя,
         if (accessToken != null && !accessToken.isEmpty()) {
             Response deleteResponse = UserSteps.deleteUser(accessToken);
-            deleteResponse.then().statusCode(200);
+            deleteResponse.then().statusCode(202);
         }
         // Закрываем браузер
         DriverManager.quitDriver();

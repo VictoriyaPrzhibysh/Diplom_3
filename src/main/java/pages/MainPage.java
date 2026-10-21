@@ -1,5 +1,6 @@
 package pages;
 
+import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -18,66 +19,63 @@ public class MainPage {
     this.wait = new WebDriverWait(driver, Duration.ofSeconds(10));
     }
 
-    public static final String BASE_URL = "https://stellarburgers.education-services.ru/";
+    public static final String BASE_URL = "https://qa-stellarburgers.education-services.ru/";
 
-    // Локаторы взяты с записи вебинара
     // Локатор для вкладки Бургер
-    private final By bunsTab = By.xpath("//span[contains(text(), 'Булки')]");
+    private final By bunsTab = By.xpath("//div[contains(@class, 'tab_tab') and .//span[contains(text(), 'Булки')]]");
 
     // Локатор для вкладки Соусы
-    private final By saucesTab = By.xpath("//span[contains(text(), 'Соусы')]");
+    private final By saucesTab = By.xpath("//div[contains(@class, 'tab_tab') and .//span[contains(text(), 'Соусы')]]");
 
     // Локатор для вкладки Начинки
-    private final By fillingsTab = By.xpath("//span[contains(text(), 'Начинки')]");
+    private final By fillingsTab = By.xpath("//div[contains(@class, 'tab_tab') and .//span[contains(text(), 'Начинки')]]");
 
-    // Локаторы - придуманные заглушки, т.к. сайт не работает
     // Локатор для кнопки Личный кабинет
-    private final By personalCabinetButton = By.xpath("//button[normalize-space()='Личный кабинет']");
+    private final By personalCabinetButton = By.linkText("Личный Кабинет");
 
     // Локатор для кнопки Войти в аккаунт на главной странице
-    private final By loginLink = By.xpath("//button[contains(., 'Войти в аккаунт')]");
+    private final By loginLink = By.cssSelector("button.button_button__33qZ0.button_button_type_primary__1O7Bx");
 
-    // Метод для нажатиям на кнопку Личный кабинет
+    @Step("Нажимаем на кнопку Личный кабинет")
     public void clickPersonalCabinetButton() {
         wait.until(ExpectedConditions.elementToBeClickable(personalCabinetButton)).click();
     }
 
-    // Метод для нажатия на кнопку Войти в аккаунт
+    @Step("Нажимаем на кнопку Войти в аккаунт")
     public void clickLoginLink() {
         wait.until(ExpectedConditions.elementToBeClickable(loginLink)).click();
     }
 
-    // Метод нажатия на вкладку Булки
+    @Step("Нажимаем на вкладку Булки")
     public void clickBunsTab() {
         wait.until(ExpectedConditions.elementToBeClickable(bunsTab)).click();
     }
 
-    // Метод нажатия на вкладку Соусы
+    @Step("Нажимаем на вкладку Соусы")
     public void clickSaucesTab() {
         wait.until(ExpectedConditions.elementToBeClickable(saucesTab)).click();
     }
 
-
-    //Метод нажатия на вкладку Начинки
+    @Step("Нажимаем на вкладку Начинки")
     public void clickFillingsTab() {
         wait.until(ExpectedConditions.elementToBeClickable(fillingsTab)).click();
     }
 
-    //Метод проверки активности вкладки Булки
+    @Step("Проверяем активность вкладки Булки")
     public boolean isBunsTabActive() {
         WebElement element = wait.until(ExpectedConditions.visibilityOfElementLocated(bunsTab));
         String classes = element.getAttribute("class");
         return classes != null && classes.contains("tab_tab_type_current");
     }
 
-    //Метод проверки активности вкладки Соусы
+    @Step("Проверяем активность вкладки Соусы")
     public boolean isSaucesTabActive() {
         WebElement element = wait.until(ExpectedConditions.visibilityOfElementLocated(saucesTab));
         String classes = element.getAttribute("class");
         return classes != null && classes.contains("tab_tab_type_current");
     }
 
-    //Метод проверки активности вкладки Начинки
+    @Step("Проверяем активность вкладки Начинки")
     public boolean isFillingsTabActive() {
         WebElement element = wait.until(ExpectedConditions.visibilityOfElementLocated(fillingsTab));
         String classes = element.getAttribute("class");
