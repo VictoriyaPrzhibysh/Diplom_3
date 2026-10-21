@@ -13,7 +13,7 @@ import steps.UserSteps;
 
 import static org.junit.Assert.assertTrue;
 
-public class RegistrationUserTest {
+public class RegistrationUserTest extends BaseApiTest {
 
     private WebDriver driver;
     private UserData userData;
@@ -41,7 +41,7 @@ public class RegistrationUserTest {
     @Test
     @DisplayName("Регистрация пользователя")
     @Description("Проверяем, что пользоватеть может зарегистрироваться")
-    public void testRegistrationUser() {
+    public void testRegistrationUser()  {
         String name = userData.FIRSTNAME;
         String email = userData.getRandomEmail();
         String password = userData.getRandomPassword();
@@ -50,10 +50,10 @@ public class RegistrationUserTest {
         authorizationPage.clickRegisterButton();
         // Регистрируемся
         registrationPage.fillRegistrationForm(name, email, password);
-        // Проверяем что регистрация прошла успешно
+        // Проверяем что регистрация прошла успешно, произошел переход на страницу авторизации
         assertTrue(
-                "Не удалось зарегистрировать пользователя: сообщение об успехе не появилось",
-                registrationPage.isRegistrationSuccess()
+                "Не произошёл переход на страницу авторизации после регистрации. Текущий URL: \" + driver.getCurrentUrl()",
+                authorizationPage.isOnAuthorizationPage()
         );
         // Получаем токен для очистки данных
         accessToken = UserSteps.getAccessToken(email, password);
@@ -84,7 +84,7 @@ public class RegistrationUserTest {
         // Удаляем пользователя,
         if (accessToken != null && !accessToken.isEmpty()) {
             Response deleteResponse = UserSteps.deleteUser(accessToken);
-            deleteResponse.then().statusCode(200);
+            deleteResponse.then().statusCode(202);
         }
         // Закрываем браузер
         DriverManager.quitDriver();

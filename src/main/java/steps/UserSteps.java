@@ -51,7 +51,7 @@ public class UserSteps {
         return given()
                 .log().all()
                 .contentType(ContentType.JSON)
-                .header("Authorization", "Bearer " + accessToken)
+                .header("Authorization", accessToken)
                 .when()
                 .delete(USER_DELETE_PATH)
                 .then()

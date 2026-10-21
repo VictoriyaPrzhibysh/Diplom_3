@@ -1,14 +1,10 @@
-import data.UserData;
 import io.qameta.allure.Description;
 import io.qameta.allure.junit4.DisplayName;
-import io.restassured.response.Response;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.WebDriver;
 import pages.MainPage;
-import pages.RegistrationPage;
-import steps.UserSteps;
 
 import static org.junit.Assert.assertTrue;
 
@@ -35,6 +31,7 @@ public class MainPageSectionTransitionsTest {
     @Description("Проверяем, что работает переход к разделу Булочки")
 
     public void testMainPageSectionTransitionsBuns () {
+        mainPage.clickSaucesTab();
         mainPage.clickBunsTab();
         assertTrue("Вкладка 'Булочки' не стала активной", mainPage.isBunsTabActive());
     }
