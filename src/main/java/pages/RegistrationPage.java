@@ -1,5 +1,6 @@
 package pages;
 
+import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -36,32 +37,31 @@ public class RegistrationPage {
     // Локатор для ошибки ввода неверного пароля (ПРЕДПОЛОЖЕНИЕ)
     private final By passwordError = By.cssSelector("p.input__error");
 
-    // Метод для заполнения поля Имя
+    @Step("Заполняем поле Имя")
     public void setName(String name) {
         wait.until(ExpectedConditions.elementToBeClickable(nameInput)).sendKeys(name);
     }
 
-    // Метод для заполнения поля Email
+    @Step("Заполняем поле Email")
     public void setEmail(String email) {
         wait.until(ExpectedConditions.elementToBeClickable(emailInput)).sendKeys(email);
     }
-
-    // Метод для заполнения поля Пароль
+    @Step("Заполняем поле Пароль")
     public void setPassword(String password) {
         wait.until(ExpectedConditions.elementToBeClickable(passwordInput)).sendKeys(password);
     }
 
-    // Метод нажатия на кнопку Зарегистрироваться на странице регистрации
+    @Step("Нажимаем на кнопку Зарегистрироваться на странице регистрации")
     public void clickRegisterButton() {
         wait.until(ExpectedConditions.elementToBeClickable(registerButton)).click();
     }
 
-    // Метод нажатия на кнопку Войти на странице регистрации
+    @Step("Нажимаем на кнопку Войти на странице регистрации")
     public void clickLoginButton() {
         wait.until(ExpectedConditions.elementToBeClickable(loginButton)).click();
     }
 
-    // Метод для заполнения формы регистрации
+    @Step("Заполняем форму регистрации")
     public void fillRegistrationForm(String name, String email, String password) {
         setName(name);
         setEmail(email);
@@ -69,7 +69,7 @@ public class RegistrationPage {
         clickRegisterButton();
     }
 
-    // Метод проверки наличия ошибки пароля
+    @Step("Проверяем наличие ошибки пароля")
     public boolean isPasswordErrorDisplayed() {
         try {
             WebElement element = new WebDriverWait(driver, Duration.ofSeconds(5))
